@@ -22,6 +22,7 @@ module.exports = {
     env: {
       NODE_ENV: JSON.stringify(process.env.NODE_ENV)
       , PORT: JSON.stringify(process.env.PORT)
+      , VK_API_ID: JSON.stringify(process.env.VK_API_ID)
     }
   }
 };

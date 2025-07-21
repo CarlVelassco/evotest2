@@ -10,6 +10,7 @@ import Paper from "@material-ui/core/Paper";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import TextLogin from "./auth/TextLogin";
+import VKAPILogin from './auth/VKAPILogin';
 import TranslationSwitch from "../components/TranslationSwitch";
 
 const styles = theme => ({
@@ -34,6 +35,7 @@ export const Login = ({classes, isAuthenticated}) => {
       </Grid>
       <Grid item>
         <Paper className={classes.loginOption}>
+          <VKAPILogin/>
         </Paper>
       </Grid>
       <Grid item>

@@ -1,4 +1,3 @@
-import ThemeToggle from '../components/ThemeToggle';
 import React from 'react';
 import T from 'i18n-react';
 import {connect} from 'react-redux';
@@ -33,7 +32,6 @@ const styles = theme => ({
 
 export const App = ({classes}) => {
   return (
-    <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 1000 }}><ThemeToggle /></div>
     <div className={classes.root}>
       <CssBaseline />
       <AppBar />

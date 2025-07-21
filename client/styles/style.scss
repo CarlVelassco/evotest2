@@ -105,3 +105,53 @@ a[disabled] {
   width: .5em;
   height: .5em;
 }
+
+/* === Dark Mode Styles === */
+.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+.dark-mode a {
+  color: #9ab;
+}
+
+.dark-mode .card,
+.dark-mode .container,
+.dark-mode .panel {
+  background-color: #1e1e1e;
+  border-color: #333;
+  color: #f0f0f0;
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  width: 50px;
+  height: 26px;
+  background: #ccc;
+  border-radius: 13px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.theme-toggle::before {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 22px;
+  margin: 2px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.dark-mode .theme-toggle {
+  background: #555;
+}
+
+.dark-mode .theme-toggle::before {
+  transform: translateX(24px);
+}

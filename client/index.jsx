@@ -1,18 +1,85 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import polyfills from '../shared/utils/polyfills';
 
-const App = () => {
-  const toggleTheme = () => {
-    document.body.classList.toggle('dark');
-  };
+import { combineReducers } from 'redux-immutable';
+import configureStore from './configuration/configureStore'
 
-  return (
-    <div>
-      <button onClick={toggleTheme} style={{ position: 'absolute', top: 20, right: 20 }}>🌓</button>
-      <h1>Hello from React!</h1>
-    </div>
-  );
+// Socket
+import {makeSocketClient, socketStore, socketMiddleware} from './configuration/socket';
+
+// History
+import {createBrowserHistory} from 'history';
+
+const history = createBrowserHistory();
+
+import {setHistory} from '../shared/utils/history';
+
+setHistory(history);
+
+// Components
+import * as reducers from './reducers'
+
+// Styles
+import './styles/reset.scss';
+// import 'react-mdl/extra/material.min.css'
+// import 'react-mdl/extra/css/material.teal-indigo.min.css'
+// import 'react-mdl/extra/material.min.js'
+import './styles/style.scss';
+import 'rc-tooltip/assets/bootstrap_white.css'
+
+// Services
+import animations from './views/game/animations';
+import animationMiddleware from './services/AnimationService/animationMiddleware';
+
+const reducer = combineReducers({
+  ...reducers
+});
+
+const APP_HOST = process.env.APP_HOST || window.location.host;
+console.log(`Initializing new socket client (${APP_HOST})`);
+
+const socketClient = makeSocketClient(APP_HOST, {forceNew: process.env.NODE_ENV === 'production'});
+
+const store = configureStore(reducer, void 0, [
+  animationMiddleware(animations)
+  , socketMiddleware(socketClient)
+]);
+
+socketStore(socketClient, store);
+
+import RootService from './services/RootService';
+
+const render = () => {
+  import('./app/Root').then(({default: Root}) => {
+    // console.log(store.getState().toJS());
+    ReactDOM.render(
+      <Root store={store} history={history} ref={(root) => !!root && RootService.setRoot(root)}/>,
+      document.getElementById('app')
+    );
+  })
 };
+if (module.hot) {
+  module.hot.accept('./app/Root', render);
+}
+render();
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import {appChangeLanguage} from './actions/app';
+
+store.dispatch(appChangeLanguage(store.getState().getIn(['app', 'lang'])));
+
+
+// === Theme Toggle ===
+const toggle = document.createElement('div');
+toggle.className = 'theme-toggle';
+document.body.appendChild(toggle);
+
+// Load saved theme
+if (localStorage.getItem('theme') === 'dark') {
+  document.documentElement.classList.add('dark-mode');
+}
+
+toggle.addEventListener('click', () => {
+  const isDark = document.documentElement.classList.toggle('dark-mode');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+});
