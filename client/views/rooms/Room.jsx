@@ -129,7 +129,7 @@ const handleBgUpload = (event) => {
   const file = event.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = (e) => {
+  reader.onload(e) {
     const dataURL = e.target.result;
     localStorage.setItem('lobbyBackground', dataURL);
     document.getElementById('room-background').style.backgroundImage = `url(${dataURL})`;
@@ -137,7 +137,7 @@ const handleBgUpload = (event) => {
   reader.readAsDataURL(file)</div>);
 };
 
-const resetBg = () => {
+const resetBg() {
   localStorage.removeItem('lobbyBackground');
   document.getElementById('room-background').style.backgroundImage = '';
 };
