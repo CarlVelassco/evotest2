@@ -1,32 +1,21 @@
-import React, { useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
 import './index.css';
 
 export default function App() {
-  const [guestName, setGuestName] = useState('');
-  const [playing, setPlaying] = useState(false);
+  const [dark, setDark] = useState(false);
 
-  if (!playing) {
-    return (
-      <div className="container">
-        <h1>🌿 Эволюция: Добро пожаловать!</h1>
-        <p>Введите имя, чтобы играть как гость:</p>
-        <input
-          type="text"
-          value={guestName}
-          onChange={(e) => setGuestName(e.target.value)}
-          placeholder="Ваше имя"
-        />
-        <button onClick={() => setPlaying(true)} disabled={!guestName}>
-          Начать игру
-        </button>
-      </div>
-    );
-  }
+  useEffect(() => {
+    document.body.className = dark ? 'dark' : 'light';
+  }, [dark]);
 
   return (
-    <div className="container">
-      <h2>👋 Привет, {guestName}!</h2>
-      <p>Игра начинается. Интерфейс в разработке...</p>
+    <div className="app">
+      <button className="theme-toggle" onClick={() => setDark(!dark)}>
+        {dark ? '🌙' : '☀️'}
+      </button>
+      <h1>🌿 Эволюция: Добро пожаловать!</h1>
+      <p>Это стартовая страница игры. Интерфейс в разработке...</p>
     </div>
   );
 }
