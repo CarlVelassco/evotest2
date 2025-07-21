@@ -49,6 +49,12 @@ const styles = theme => ({
 export const AppBar = ({classes}) => (
   <MUIAppBar color='primary'>
     <Toolbar>
+        <div className="theme-icon-toggle"
+             onClick={() => {
+               const root = document.documentElement;
+               const isDark = root.classList.toggle('dark-mode');
+               localStorage.setItem('theme', isDark ? 'dark' : 'light');
+             }}>🧬</div>
       {/*<TranslationSwitchView/>*/}
       <div className={classes.title}>
         <EvoLink to='/' variant="h4" color="inherit">{T.translate('App.Name')}</EvoLink>

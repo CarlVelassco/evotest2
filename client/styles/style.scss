@@ -165,3 +165,18 @@ a[disabled] {
   width: 100%;
   user-select: none;
 }
+
+.theme-icon-toggle {
+  font-size: 20px;
+  cursor: pointer;
+  user-select: none;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.theme-icon-toggle:hover {
+  transform: scale(1.2);
+}
