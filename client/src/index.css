@@ -1,32 +1,4 @@
-
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
-  transition: background 0.3s, color 0.3s;
-}
-
-body.light {
-  background: #f0fdf4;
-  color: #1e293b;
-}
-
-body.dark {
-  background: #1e293b;
-  color: #f0fdf4;
-}
-
-.app {
-  padding: 2rem;
-  text-align: center;
-}
-
-.theme-toggle {
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  padding: 0.5rem 1rem;
-  font-size: 1.2rem;
-  cursor: pointer;
-  border: none;
-  background: none;
 }
