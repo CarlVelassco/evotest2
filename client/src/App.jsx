@@ -1,11 +1,32 @@
-import React, { useState } from 'react'
-import Login from './pages/Login'
-import Lobby from './pages/Lobby'
+import React, { useState } from 'react';
+import './index.css';
 
-function App() {
-  const [username, setUsername] = useState(null)
+export default function App() {
+  const [guestName, setGuestName] = useState('');
+  const [playing, setPlaying] = useState(false);
 
-  return username ? <Lobby username={username} /> : <Login onLogin={setUsername} />
+  if (!playing) {
+    return (
+      <div className="container">
+        <h1>🌿 Эволюция: Добро пожаловать!</h1>
+        <p>Введите имя, чтобы играть как гость:</p>
+        <input
+          type="text"
+          value={guestName}
+          onChange={(e) => setGuestName(e.target.value)}
+          placeholder="Ваше имя"
+        />
+        <button onClick={() => setPlaying(true)} disabled={!guestName}>
+          Начать игру
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container">
+      <h2>👋 Привет, {guestName}!</h2>
+      <p>Игра начинается. Интерфейс в разработке...</p>
+    </div>
+  );
 }
-
-export default App
