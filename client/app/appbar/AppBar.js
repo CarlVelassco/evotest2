@@ -83,8 +83,6 @@ export const AppBar = ({classes}) => (
               target="blank"
               variant="outlined"
               color="secondary"
-              href="https://vk.com/evolveonline">
-        {T.translate('App.Misc.VKGroup')}
       </Button>
 
       <Button className={classes.button}

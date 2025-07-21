@@ -10,4 +10,3 @@ Array.prototype.remove = function (argument) {
   }
   return this;
 };
-
