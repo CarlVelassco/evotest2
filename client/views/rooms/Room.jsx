@@ -50,9 +50,36 @@ const styles = theme => ({
 });
 
 export class Room extends React.PureComponent {
-  renderUser({ user }) {
-    const {roomKickRequest, roomBanRequest, isHost, userId} = this.props;
-    return (<div id="room-background" style={{ width: "100%", height: "100%", backgroundSize: "cover", backgroundPosition: "center" }}>
+  componentDidMount() {
+    const savedBg = localStorage.getItem('lobbyBackground');
+    if (savedBg) {
+      const bgElem = document.getElementById('room-background');
+      if (bgElem) bgElem.style.backgroundImage = `url(${savedBg})`;
+    }
+  }
+
+  handleBgUpload = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataURL = e.target.result;
+      localStorage.setItem('lobbyBackground', dataURL);
+      const bgElem = document.getElementById('room-background');
+      if (bgElem) bgElem.style.backgroundImage = `url(${dataURL})`;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  resetBg = () => {
+    localStorage.removeItem('lobbyBackground');
+    const bgElem = document.getElementById('room-background');
+    if (bgElem) bgElem.style.backgroundImage = '';
+  };
+
+  renderUser = ({ user }) => {
+    const { roomKickRequest, roomBanRequest, isHost, userId } = this.props;
+    return (
       <UserVariants.listItemWithActions
         showIcon
         user={user}
@@ -64,57 +91,65 @@ export class Room extends React.PureComponent {
     );
   };
 
-  renderBannedUser(props) {
-    const { user } = props;
-    const {roomUnbanRequest, isHost, userId} = this.props;
+  renderBannedUser = ({ user }) => {
+    const { roomUnbanRequest, isHost, userId } = this.props;
     return (
       <UserVariants.listItem user={user} actions={
-        user.id !== userId && isHost && <ListItemSecondaryAction>
-          <Tooltip title={T.translate('App.Room.$Unban')}>
-            <IconButton onClick={() => roomUnbanRequest(user.id)}><IconUnbanUser/></IconButton>
-          </Tooltip>
-        </ListItemSecondaryAction>}
-      />);
+        user.id !== userId && isHost && (
+          <ListItemSecondaryAction>
+            <Tooltip title={T.translate('App.Room.$Unban')}>
+              <IconButton onClick={() => roomUnbanRequest(user.id)}><IconUnbanUser /></IconButton>
+            </Tooltip>
+          </ListItemSecondaryAction>
+        )}
+      />
+    );
   }
 
   render() {
-    console.log("Rendering Room.jsx", this.props);
-    try {
-    const {classes, room} = this.props;
-    return (<div id="room-background" style={{ width: "100%", height: "100%", backgroundSize: "cover", backgroundPosition: "center" }}>
-      <Grid container direction='column' wrap='nowrap' item className={classes.root}>
-        <RoomStartVotingDialog/>
-        <Typography variant='h3'>
-          {/*{T.translate('App.Room.Room')}&nbsp;«{room.name}»&nbsp;*/}
-          <RoomStartVotingTimer room={room}/>
-        </Typography>
-        <Grid container className={classes.container} spacing={1}>
-          <Grid container item className={classes.column} xs={4}>
-            <Paper className={classes.columnPaper + ' ' + classes.columnSettings}>
-              <RoomSettings roomId={room.id}/>
-            </Paper>
-          </Grid>
-          <Grid container item className={classes.column} xs={4}>
-            <Paper className={classes.columnPaper}>
-              <Chat chatTargetType='ROOM' roomId={room.id}/>
-            </Paper>
-          </Grid>
-          <Grid container item className={classes.column} xs={4}>
-            <Paper className={classes.columnPaper}>
-              <Typography variant='h6'>
-                {T.translate('App.Room.Players')} ({room.users.size}/{room.settings.maxPlayers}):
-              </Typography>
-              <UsersList list={room.users}>{this.renderUser}</UsersList>
-              <Typography variant='h6'>{T.translate('App.Room.Spectators')}:</Typography>
-              <UsersList list={room.spectators}>{this.renderUser}</UsersList>
-              {room.banlist.size > 0 && (<div>
-                <Typography variant='h6'>{T.translate('App.Room.Banned')}:</Typography>
-                <UsersList list={room.banlist}>{this.renderBannedUser}</UsersList>
-              </div>)}
-            </Paper>
+    const { classes, room } = this.props;
+    return (
+      <div id="room-background" style={{ width: "100%", height: "100%", backgroundSize: "cover", backgroundPosition: "center" }}>
+        <div style={{ position: 'absolute', top: 10, left: 10, zIndex: 1000 }}>
+          <input type="file" accept="image/*" onChange={this.handleBgUpload} />
+          <button onClick={this.resetBg}>Сбросить фон</button>
+        </div>
+
+        <Grid container direction='column' wrap='nowrap' item className={classes.root}>
+          <RoomStartVotingDialog />
+          <Typography variant='h3'>
+            <RoomStartVotingTimer room={room} />
+          </Typography>
+          <Grid container className={classes.container} spacing={1}>
+            <Grid container item className={classes.column} xs={4}>
+              <Paper className={classes.columnPaper + ' ' + classes.columnSettings}>
+                <RoomSettings roomId={room.id} />
+              </Paper>
+            </Grid>
+            <Grid container item className={classes.column} xs={4}>
+              <Paper className={classes.columnPaper}>
+                <Chat chatTargetType='ROOM' roomId={room.id} />
+              </Paper>
+            </Grid>
+            <Grid container item className={classes.column} xs={4}>
+              <Paper className={classes.columnPaper}>
+                <Typography variant='h6'>
+                  {T.translate('App.Room.Players')} ({room.users.size}/{room.settings.maxPlayers}):
+                </Typography>
+                <UsersList list={room.users}>{this.renderUser}</UsersList>
+                <Typography variant='h6'>{T.translate('App.Room.Spectators')}:</Typography>
+                <UsersList list={room.spectators}>{this.renderUser}</UsersList>
+                {room.banlist.size > 0 && (
+                  <div>
+                    <Typography variant='h6'>{T.translate('App.Room.Banned')}:</Typography>
+                    <UsersList list={room.banlist}>{this.renderBannedUser}</UsersList>
+                  </div>
+                )}
+              </Paper>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </div>
     );
   }
 }
@@ -131,18 +166,26 @@ useEffect(() => {
 const handleBgUpload = (event) => {
   const file = event.target.files[0];
   if (!file) return;
+
   const reader = new FileReader();
-  reader.onload(e) {
+  reader.onload = (e) => {
     const dataURL = e.target.result;
     localStorage.setItem('lobbyBackground', dataURL);
-    document.getElementById('room-background').style.backgroundImage = `url(${dataURL})`;
+    const bgElem = document.getElementById('room-background');
+    if (bgElem) {
+      bgElem.style.backgroundImage = `url(${dataURL})`;
+    }
   };
-  reader.readAsDataURL(file)</div>);
+  reader.readAsDataURL(file);
 };
 
-const resetBg() {
+
+const resetBg = () => {
   localStorage.removeItem('lobbyBackground');
-  document.getElementById('room-background').style.backgroundImage = '';
+  const bgElem = document.getElementById('room-background');
+  if (bgElem) {
+    bgElem.style.backgroundImage = '';
+  }
 };
 
 
@@ -168,9 +211,3 @@ export default compose(
     }
     , {roomKickRequest, roomBanRequest, roomUnbanRequest})
 )(Room);
-
-    } catch (err) {
-        console.error("Render error in Room.jsx:", err);
-        return <div style={{ color: "red", padding: "2rem" }}>Ошибка в интерфейсе комнаты</div>;
-    }
-}
