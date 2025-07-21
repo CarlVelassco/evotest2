@@ -52,7 +52,7 @@ const styles = theme => ({
 export class Room extends React.PureComponent {
   renderUser = ({user}) => {
     const {roomKickRequest, roomBanRequest, isHost, userId} = this.props;
-    return (
+    return (<div id="room-background" style={{ width: "100%", height: "100%", backgroundSize: "cover", backgroundPosition: "center" }}>
       <UserVariants.listItemWithActions
         showIcon
         user={user}
@@ -66,7 +66,7 @@ export class Room extends React.PureComponent {
 
   renderBannedUser = ({user}) => {
     const {roomUnbanRequest, isHost, userId} = this.props;
-    return (
+    return (<div id="room-background" style={{ width: "100%", height: "100%", backgroundSize: "cover", backgroundPosition: "center" }}>
       <UserVariants.listItem user={user} actions={
         user.id !== userId && isHost && <ListItemSecondaryAction>
           <Tooltip title={T.translate('App.Room.$Unban')}>
@@ -78,7 +78,7 @@ export class Room extends React.PureComponent {
 
   render() {
     const {classes, room} = this.props;
-    return (
+    return (<div id="room-background" style={{ width: "100%", height: "100%", backgroundSize: "cover", backgroundPosition: "center" }}>
       <Grid container direction='column' wrap='nowrap' item className={classes.root}>
         <RoomStartVotingDialog/>
         <Typography variant='h3'>
@@ -115,6 +115,40 @@ export class Room extends React.PureComponent {
     );
   }
 }
+
+
+// === Custom Lobby Background ===
+useEffect(() => {
+  const savedBg = localStorage.getItem('lobbyBackground');
+  if (savedBg) {
+    document.getElementById('room-background').style.backgroundImage = `url(${savedBg})`;
+  }
+}, []);
+
+const handleBgUpload = (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const dataURL = e.target.result;
+    localStorage.setItem('lobbyBackground', dataURL);
+    document.getElementById('room-background').style.backgroundImage = `url(${dataURL})`;
+  };
+  reader.readAsDataURL(file)</div>);
+};
+
+const resetBg = () => {
+  localStorage.removeItem('lobbyBackground');
+  document.getElementById('room-background').style.backgroundImage = '';
+};
+
+
+
+<div style={{ position: 'absolute', top: 10, left: 10, zIndex: 1000 }}>
+  <input type="file" accept="image/*" onChange={handleBgUpload} />
+  <button onClick={resetBg}>Сбросить фон</button>
+</div>
+
 
 export default compose(
   withStyles(styles)

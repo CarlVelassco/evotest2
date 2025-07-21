@@ -82,10 +82,14 @@ toggle.addEventListener('click', () => {
 
 
 
-// === Theme Toggle with Icon and Fade ===
+
+
+
+
+// === Custom Toggle Switch with Icons ===
 const toggle = document.createElement('div');
 toggle.className = 'theme-toggle';
-toggle.innerHTML = localStorage.getItem('theme') === 'dark' ? '☀️' : '🌙';
+toggle.innerHTML = '<div class="theme-icon-wrapper"><div class="theme-icon">🌙</div><div class="theme-icon sun">☀️</div></div>';
 document.body.appendChild(toggle);
 
 const setTheme = (isDark) => {
@@ -93,7 +97,8 @@ const setTheme = (isDark) => {
   document.body.classList.toggle('dark-mode', isDark);
   document.getElementById('app')?.classList.toggle('dark-mode', isDark);
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
-  toggle.innerHTML = isDark ? '☀️' : '🌙';
+  const wrapper = document.querySelector('.theme-icon-wrapper');
+  wrapper.classList.toggle('dark', isDark);
 };
 
 if (localStorage.getItem('theme') === 'dark') {
@@ -101,14 +106,6 @@ if (localStorage.getItem('theme') === 'dark') {
 }
 
 toggle.addEventListener('click', () => {
-  document.body.classList.add('fade-transition');
-  document.getElementById('app')?.classList.add('fade-transition');
-  setTimeout(() => {
-    const isDark = !document.documentElement.classList.contains('dark-mode');
-    setTheme(isDark);
-    setTimeout(() => {
-      document.body.classList.remove('fade-transition');
-      document.getElementById('app')?.classList.remove('fade-transition');
-    }, 300);
-  }, 50);
+  const isDark = !document.documentElement.classList.contains('dark-mode');
+  setTheme(isDark);
 });
