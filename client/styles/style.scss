@@ -1,0 +1,107 @@
+@import 'variables';
+
+// @formatter:off
+
+html, body, #app {
+  overflow: hidden; // To prevent bug with incorrect tooltips
+  height: 100%;
+  min-height: 300px;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  margin: 0;
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  letter-spacing: .04em;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+h1, .h1 {font-size: 2.0em; padding: .5em .5em .25em;}
+h2, .h2 {font-size: 1.8em; padding: .25em .25em 0;}
+h3, .h3 {font-size: 1.6em; padding: 0 .25em 0;}
+h4, .h4 {font-size: 1.4em;}
+h5, .h5 {font-size: 1.2em;}
+h6, .h6 {font-size: 1.2em;}
+
+a, .pointer {cursor: pointer;}
+
+a {
+  text-decoration: underline;
+  &:hover {text-decoration: none;}
+}
+
+a[disabled] {
+  pointer-events: none;
+  color: gray;
+  text-decoration: none;
+}
+
+// @formatter:on
+
+.bold, strong {
+  font-weight: bold;
+}
+
+.layout-padding {
+  padding: 8px;
+  &-h {
+    padding: 0 8px;
+    &-2 {
+      padding: 0 16px;
+    }
+  }
+}
+
+.layout-margin {
+  margin: 8px;
+}
+
+.flex {
+  flex: 1 1 auto;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.displayFlex {
+  display: flex;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.hidden {
+  display: none;
+}
+
+.onTop {
+  z-index: $ziAnimation;
+}
+.animationGhostSource {
+  opacity: .25;
+}
+.animationGhostTarget {
+  position: absolute;
+  left: 0; top: 0;
+  margin: 0;
+}
+
+@keyframes interaction-pulsate {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.User .icon {
+  width: .5em;
+  height: .5em;
+}

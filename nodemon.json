@@ -1,0 +1,15 @@
+{
+  "restartable": "rs",
+  "ignore": [
+    ".git",
+    "*.spec.js",
+    "node_modules/*",
+    "dist/*"
+  ],
+  "verbose": true,
+  "watch": ["server", "shared"],
+  "execMap": {
+    "js": "babel-node"
+  },
+  "ext": "js json"
+}
