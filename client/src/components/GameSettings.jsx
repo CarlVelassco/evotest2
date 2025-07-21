@@ -1,0 +1,1 @@
+// client/src/components/GameSettings.jsx content placeholder
