@@ -64,7 +64,7 @@ export class Room extends React.PureComponent {
     );
   };
 
-  renderBannedUser = ({user}) => {
+  renderBannedUser({ user }) {
     const {roomUnbanRequest, isHost, userId} = this.props;
     return (
       <UserVariants.listItem user={user} actions={
