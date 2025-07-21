@@ -6,6 +6,7 @@ WORKDIR /app
 COPY . .
 
 RUN npm install
+ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN npm run client:build
 
 # 🗃 Стадия 2: сервер
