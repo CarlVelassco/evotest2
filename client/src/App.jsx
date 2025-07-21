@@ -1,30 +1,12 @@
+import React from "react";
 
-import { useState } from 'react';
-import './App.css';
-
-function App() {
-  const [email, setEmail] = useState('');
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    alert(`Письмо отправлено на ${email}`);
-  };
-
+export default function App() {
   return (
-    <div className="welcome">
-      <h1>🌿 Эволюция: Добро пожаловать!</h1>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Введите email для входа"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <button type="submit">Войти</button>
-      </form>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-200 to-yellow-100">
+      <div className="bg-white p-10 rounded-xl shadow-xl w-full max-w-md text-center">
+        <h1 className="text-2xl font-bold mb-6">🌿 Эволюция: Добро пожаловать!</h1>
+        <p>Это стартовая страница игры. Вход через email скоро будет доступен.</p>
+      </div>
     </div>
   );
 }
-
-export default App;
