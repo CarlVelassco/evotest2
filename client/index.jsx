@@ -69,20 +69,46 @@ import {appChangeLanguage} from './actions/app';
 store.dispatch(appChangeLanguage(store.getState().getIn(['app', 'lang'])));
 
 
-// === Theme Toggle with Icon ===
-const toggle = document.createElement('div');
-toggle.className = 'theme-toggle';
-toggle.innerHTML = '<span class="theme-icon">🌙</span>';
-document.body.appendChild(toggle);
 
-// Load saved theme
-if (localStorage.getItem('theme') === 'dark') {
-  document.documentElement.classList.add('dark-mode');
-  toggle.innerHTML = '<span class="theme-icon">☀️</span>';
-}
 
 toggle.addEventListener('click', () => {
   const isDark = document.documentElement.classList.toggle('dark-mode');
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
   toggle.innerHTML = `<span class="theme-icon">${isDark ? '☀️' : '🌙'}</span>`;
+});
+
+
+
+
+
+
+// === Theme Toggle with Icon and Fade ===
+const toggle = document.createElement('div');
+toggle.className = 'theme-toggle';
+toggle.innerHTML = localStorage.getItem('theme') === 'dark' ? '☀️' : '🌙';
+document.body.appendChild(toggle);
+
+const setTheme = (isDark) => {
+  document.documentElement.classList.toggle('dark-mode', isDark);
+  document.body.classList.toggle('dark-mode', isDark);
+  document.getElementById('app')?.classList.toggle('dark-mode', isDark);
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  toggle.innerHTML = isDark ? '☀️' : '🌙';
+};
+
+if (localStorage.getItem('theme') === 'dark') {
+  setTheme(true);
+}
+
+toggle.addEventListener('click', () => {
+  document.body.classList.add('fade-transition');
+  document.getElementById('app')?.classList.add('fade-transition');
+  setTimeout(() => {
+    const isDark = !document.documentElement.classList.contains('dark-mode');
+    setTheme(isDark);
+    setTimeout(() => {
+      document.body.classList.remove('fade-transition');
+      document.getElementById('app')?.classList.remove('fade-transition');
+    }, 300);
+  }, 50);
 });
