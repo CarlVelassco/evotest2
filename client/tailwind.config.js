@@ -1,1 +1,7 @@
-// client/tailwind.config.js content placeholder
+module.exports = {
+  content: ['./index.html', './src/**/*.{js,jsx}'],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
