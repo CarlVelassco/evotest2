@@ -66,7 +66,7 @@ export class Room extends React.PureComponent {
 
   renderBannedUser = ({user}) => {
     const {roomUnbanRequest, isHost, userId} = this.props;
-    return (<div id="room-background" style={{ width: "100%", height: "100%", backgroundSize: "cover", backgroundPosition: "center" }}>
+    return (
       <UserVariants.listItem user={user} actions={
         user.id !== userId && isHost && <ListItemSecondaryAction>
           <Tooltip title={T.translate('App.Room.$Unban')}>
