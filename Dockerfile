@@ -1,5 +1,7 @@
+
 # Stage 1: Build React app
-FROM node:18 AS build
+FROM node:18 as build
+
 WORKDIR /app
 COPY client ./client
 WORKDIR /app/client
@@ -9,8 +11,8 @@ RUN npm install && npm run build
 FROM node:18
 WORKDIR /app
 COPY server ./server
-COPY --from=build /app/client/build ./server/public
+COPY --from=build /app/client/dist ./client/dist
 WORKDIR /app/server
-RUN npm install
-EXPOSE 3000
-CMD ["npm", "start"]
+RUN npm install express
+
+CMD ["node", "index.js"]

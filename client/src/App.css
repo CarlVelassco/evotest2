@@ -1,0 +1,25 @@
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.welcome {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #a8edea, #fed6e3);
+}
+
+input {
+  padding: 10px;
+  margin-top: 10px;
+}
+
+button {
+  padding: 10px 15px;
+  margin-top: 10px;
+  cursor: pointer;
+}
