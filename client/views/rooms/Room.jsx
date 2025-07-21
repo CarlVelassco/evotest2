@@ -74,7 +74,7 @@ export class Room extends React.PureComponent {
           </Tooltip>
         </ListItemSecondaryAction>}
       />);
-  };
+  }
 
   render() {
     const {classes, room} = this.props;
