@@ -1,32 +1,25 @@
 import React, { useState } from 'react';
-import './index.css';
+import './theme.css';
 
 export default function App() {
-  const [guestName, setGuestName] = useState('');
-  const [playing, setPlaying] = useState(false);
+  const [theme, setTheme] = useState('light');
 
-  if (!playing) {
-    return (
-      <div className="container">
-        <h1>🌿 Эволюция: Добро пожаловать!</h1>
-        <p>Введите имя, чтобы играть как гость:</p>
-        <input
-          type="text"
-          value={guestName}
-          onChange={(e) => setGuestName(e.target.value)}
-          placeholder="Ваше имя"
-        />
-        <button onClick={() => setPlaying(true)} disabled={!guestName}>
-          Начать игру
-        </button>
-      </div>
-    );
-  }
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    setTheme(newTheme);
+  };
 
   return (
     <div className="container">
-      <h2>👋 Привет, {guestName}!</h2>
-      <p>Игра начинается. Интерфейс в разработке...</p>
+      <button className="theme-toggle" onClick={toggleTheme}>🌓</button>
+      <h1>🌿 Эволюция: Добро пожаловать!</h1>
+      <p>Играй как гость или войди по email (скоро).</p>
+      <div className="menu">
+        <button>Создать лобби</button>
+        <button>Присоединиться</button>
+        <button>Вернуться</button>
+      </div>
     </div>
   );
 }
