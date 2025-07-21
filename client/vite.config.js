@@ -1,1 +1,1 @@
-// client/vite.config.js content placeholder
+export default { root: './src' };

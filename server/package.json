@@ -1,1 +1,1 @@
-// server/package.json content placeholder
+{ "name": "server", "main": "index.js", "dependencies": { "express": "^4.0.0" } }

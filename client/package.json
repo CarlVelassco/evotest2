@@ -1,1 +1,1 @@
-// client/package.json content placeholder
+{ "name": "client", "scripts": { "dev": "vite" }, "dependencies": { "react": "^18.0.0" } }
