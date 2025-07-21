@@ -69,17 +69,20 @@ import {appChangeLanguage} from './actions/app';
 store.dispatch(appChangeLanguage(store.getState().getIn(['app', 'lang'])));
 
 
-// === Theme Toggle ===
+// === Theme Toggle with Icon ===
 const toggle = document.createElement('div');
 toggle.className = 'theme-toggle';
+toggle.innerHTML = '<span class="theme-icon">🌙</span>';
 document.body.appendChild(toggle);
 
 // Load saved theme
 if (localStorage.getItem('theme') === 'dark') {
   document.documentElement.classList.add('dark-mode');
+  toggle.innerHTML = '<span class="theme-icon">☀️</span>';
 }
 
 toggle.addEventListener('click', () => {
   const isDark = document.documentElement.classList.toggle('dark-mode');
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  toggle.innerHTML = `<span class="theme-icon">${isDark ? '☀️' : '🌙'}</span>`;
 });
