@@ -1,1 +1,0 @@
-export const debugMirrorPlayer = (data = {}) => ({type: 'debugMirrorPlayer', data});
