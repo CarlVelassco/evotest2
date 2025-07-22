@@ -1,25 +1,35 @@
-
-body {
-  margin: 0;
-  font-family: sans-serif;
+body.light {
+  background-color: #f0f0f0;
+  color: #333;
 }
-
-.welcome {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(to right, #a8edea, #fed6e3);
+body.dark {
+  background-color: #1a1a1a;
+  color: #eee;
 }
-
-input {
-  padding: 10px;
-  margin-top: 10px;
+.app {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 2rem;
 }
-
 button {
-  padding: 10px 15px;
-  margin-top: 10px;
+  margin: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  transition: transform 0.2s, background-color 0.3s;
+}
+button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+.theme-toggle {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: none;
+  font-size: 1.5rem;
 }
