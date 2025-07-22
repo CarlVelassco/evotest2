@@ -1,31 +1,39 @@
-const express = require("express");
-const http = require("http");
-const { Server } = require("socket.io");
-const cors = require("cors");
-const path = require("path");
+
+const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
+const path = require('path');
 
 const app = express();
-app.use(cors());
-
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "*",
-  },
+    origin: "*"
+  }
 });
 
-io.on("connection", (socket) => {
-  console.log("User connected:", socket.id);
+io.on('connection', socket => {
+  console.log('🔌 Пользователь подключился');
 
-  socket.on("message", (msg) => {
-    io.emit("message", msg);
+  socket.on('createRoom', () => {
+    console.log('Создание лобби');
   });
 
-  socket.on("disconnect", () => {
-    console.log("User disconnected:", socket.id);
+  socket.on('joinRoom', () => {
+    console.log('Присоединение к лобби');
   });
+
+  socket.on('disconnect', () => {
+    console.log('❌ Пользователь отключился');
+  });
+});
+
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
 server.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+  console.log('✅ Сервер запущен на http://localhost:3000');
 });
