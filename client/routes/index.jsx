@@ -20,6 +20,7 @@ export default (
       <ProtectedRoute exact path='/' component={RouteMain} />
       <ProtectedRoute exact path='/profile' component={RouteProfile} />
       <Route path="/admin" component={AdminPanel} />
+    <Route exact path="/" component={Home} />
   </Switch>
   </Suspense>
 );
