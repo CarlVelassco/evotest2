@@ -1,6 +1,0 @@
-
-{
-  "name": "evolution-monorepo",
-  "private": true,
-  "workspaces": ["client", "server"]
-}
